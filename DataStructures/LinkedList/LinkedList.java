@@ -1,4 +1,4 @@
-package de.dsa.datastructures;
+package LinkedList;
 
 /**
  * ∗Einfach verkettete Liste ∗LeereListe<>istnull;nichtlereListe<a0,...,a(n−1)>
@@ -176,7 +176,7 @@ public class LinkedList {
 	 */
 	public static LinkedList removeIndex(int index, LinkedList list) throws IndexOutOfBoundsException{
 		
-		if(!hasIndex(index)) {
+		if(!hasIndex(index, list)) {
 			throw new IndexOutOfBoundsException();
 		}
 		
@@ -197,7 +197,7 @@ public class LinkedList {
 			atIndex = list;
 		
 			atIndex.successor = empty();
-			returnIndex = empty();
+			returnList = empty();
 			
 		} else if(isLastIndex) {
 			beforeIndex = linearSearchIndex(index - 1, list);
@@ -225,7 +225,7 @@ public class LinkedList {
 	 * @return First Element of list
 	 * @throws IndexOutOfBoundsException
 	 */
-	public static LinkedList insertAt(int index, Int element, LinkedList list) throws IndexOutOfBoundsException {
+	public static LinkedList insertAt(int index, Integer element, LinkedList list) throws IndexOutOfBoundsException {
 		LinkedList returnList;
 		LinkedList listElement = new LinkedList(element, null);
 		
@@ -249,7 +249,7 @@ public class LinkedList {
 	public static LinkedList insertAt(int index, LinkedList element, LinkedList list) throws IndexOutOfBoundsException{
 		
 		boolean isAppend = hasIndex(index - 1, list);	
-		if(!hasIndex(index) && !isAppend) {
+		if(!hasIndex(index, list) && !isAppend) {
 			throw new IndexOutOfBoundsException();
 		}
 		
@@ -281,16 +281,16 @@ public class LinkedList {
 	 * @return First Element of list
 	 * @throws IndexOutOfBoundsExpcetion
 	 */
-	public static LinkedList moveFromTo(int from, int to, LinkedList list) throws IndexOutOfBoundsExpcetion {
-		boolean hasFrom = hasElement(from, list);
-		boolean hasTo = hasElement(to, list) || hasElement(to - 1, list);
+	public static LinkedList moveFromTo(int from, int to, LinkedList list) throws IndexOutOfBoundsException {
+		boolean hasFrom = hasIndex(from, list);
+		boolean hasTo = hasIndex(to, list) || hasIndex(to - 1, list);
 		
 		if(!hasFrom || !hasTo) {
 			throw new IndexOutOfBoundsException();
 		}
 		
 		LinkedList returnList = list;
-		LinkedList moveElement = linearSearchIndexAt(from, list); 
+		LinkedList moveElement = linearSearchIndex(from, list); 
 		
 		if(from != to) {
 			returnList = removeIndex(from, returnList);
