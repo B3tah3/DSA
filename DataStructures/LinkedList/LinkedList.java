@@ -121,5 +121,183 @@ public class LinkedList {
 	public static boolean isEmpty(LinkedList list) {
 		return list == null;
 	}
+	
+	/**
+	 * Searches list for specified index
+	 * @param index 
+	 * @param list 
+	 * @return list element at specified index
+	 * @throws IndexOutOfBoundsException If index exceeds list length
+	 */
+	private static List linearSearchIndex(int index, List list) throws IndexOutOfBoundsException {
+		
+		if(index < 0) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		List returnList = list;
+		for(int i = 0; i < index; i++) {
+			
+			if(!isEmpty(rest(returnList)))) {
+				returnList = rest(returnList);
+			} else {
+				throw new IndexOutOfBoundsException()
+			}
+			
+		}
+		
+		return returnList;
+	}
+	
+	/**
+	 * Checks if index is contained in list
+	 * @param index
+	 * @param list
+	 * @return true if in list else false
+	 */
+	public static boolean hasIndex(int index, List list) {
+		boolean returnValue() = true;
+		
+		try {
+			linearSearchIndex(index, list);
+		} catch IndexOutOfBoundsException e {
+			returnValue = false;
+		}
+		
+		return returnValue;
+	}
+	
+	/**
+	 * Removes element at index
+	 * @param index
+	 * @param list
+	 * @throws IndexOutOfBoundsException
+	 * @return First element of list
+	 */
+	public static List removeIndex(int index, List list) throws IndexOutOfBoundsException{
+		
+		if(!hasIndex(index)) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		boolean isLastIndex = !hasIndex(index + 1, list);
+		List returnList = list;
+		List beforeIndex;
+		List atIndex;
+		List afterIndex;
+		
+		if(index == 0 && !isLastIndex) {
+			atIndex = list;
+			afterIndex = linearSearchIndex(1, list);
+			
+			atIndex.successor = empty();
+			returnList = afterIndex;
+			
+		} else if(index == 0 && isLastIndex) {
+			atIndex = list;
+		
+			atIndex.successor = empty();
+			returnIndex = empty()
+			
+		} else if(isLastIndex) {
+			beforeIndex = linearSearchIndex(index - 1, list);
+			atIndex = linearSearchIndex(1, beforeIndex);
+			
+			beforeIndex.successor = empty();
+			
+		} else {
+			beforeIndex = linearSearchIndex(index - 1, list);
+			atIndex = linearSearchIndex(1, beforeIndex);
+			afterIndex = linearSearchIndex(1, atIndex);
+			
+			beforeIndex.successor = afterIndex;
+			atIndex.successor = empty();
+		}
+		
+		return returnList;
+	}
+	
+	/**
+	 * Inserts Int and index. Can also append, so an index of lastIndex + 1 is allowed.
+	 * @param index
+	 * @param element
+	 * @param list
+	 * @return First Element of list
+	 * @throws IndexOutOfBoundsException
+	 */
+	public static List insertAt(int index, Int element, List list) throws IndexOutOfBoundsException {
+		List returnList;
+		List listElement = new List(element, null);
+		
+		try {
+			returnList = insertAt(index, listElement, list);
+		} catch IndexOutOfBoundsException e {
+			throw e
+		}
+		
+		return returnList;
+	}
+	
+	/**
+	 * Inserts List element at index. Can also append so an index of lastIndex + 1 is allowed.
+	 * @param index
+	 * @param element
+	 * @param list
+	 * @return First elemen of list
+	 * @throws IndexOutOfBoundsException
+	 */
+	public static List insertAt(int index, List element, List list) throws IndexOutOfBoundsException{
+		
+		boolean isAppend = hasIndex(index - 1, list)	
+		if(!hasIndex(index) && !isAppend) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		List returnList = list;
+		List beforeIndex;
+		List atIndex;
+		
+		if(index == 0) {
+			concat(element, list);
+			returnList = element;
+		} else if (isAppend) {
+			concat(list, element);
+		} else {
+			beforeIndex = linearSearchIndex(index - 1, list);
+			atIndex = linearSearchIndex(1, beforeIndex);
+			
+			beforeIndex.successor = element;
+			element.successor = atIndex;
+		}
+		
+		return returnList;
+	}
+	
+	/**
+	 * Moves element in list
+	 * @param from
+	 * @param to
+	 * @param list
+	 * @return First Element of list
+	 * @throws IndexOutOfBoundsExpcetion
+	 */
+	public static List moveFromTo(int from, int to, List list) throws IndexOutOfBoundsExpcetion {
+		boolean hasFrom = hasElement(from, list);
+		boolean hasTo = hasElement(to, list) || hasElement(to - 1, list);
+		
+		if(!hasFrom || !hasTo) {
+			throw new IndexOutOfBoundsException;
+		}
+		
+		List returnList = list;
+		List moveElement = linearSearchIndexAt(from, list); 
+		
+		if(from != to) {
+			returnList = removeIndex(from, returnList);
+			returnList = insertAt(to, moveElement, returnList); 
+		}
+		
+		return returnList;
+	}
 
 }
