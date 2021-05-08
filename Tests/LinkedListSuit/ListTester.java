@@ -50,6 +50,13 @@ public class ListTester {
 		System.out.println(")");
 	}
 
+
+	/**
+	 * Test function that appends *times* numbers to the startList
+	 * @param startList
+	 * @param times
+	 * @return The mutated startList
+	 */
 	@Test
 	public static List testAppend(List startList, int times) {
 		for (int i = 1; i < times + 1; i++) {
@@ -61,7 +68,12 @@ public class ListTester {
 
 		return startList;
 	}
-
+	
+	/**
+	 * Sets up a new list, that can be used as a list for concat
+	 * @param c empty list to be generated for concat
+	 * @return filled list
+	 */
 	@BeforeEach
 	public static List setupConcat(List c) {
 		for (int i = 1; i < 3; i++) {
@@ -73,7 +85,13 @@ public class ListTester {
 
 		return c;
 	}
-
+	
+	/**
+	 * Testfunction for concat
+	 * @param l
+	 * @param c
+	 * @return list l that was concatted
+	 */
 	@Test
 	public static List testConcat(List l, List c) {
 		l = List.concat(l, c);
