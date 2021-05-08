@@ -300,5 +300,44 @@ public class LinkedList {
 		
 		return returnList;
 	}
+	
+	/**
+	 * Function to search values by index
+	 * @param index
+	 * @param list
+	 * @return value at index
+	 * @throws IndexOutOfBoundsException
+	 */
+	public static int getValueByIndex(int index, LinkedList list) throws IndexOutOfBoundsException {
+		if(!hasIndex(index, list)) {
+			throw new IndexOutOfBoundsException();
+		} 
+		
+		LinkedList element = linearSearchIndex(index, list);
+		return first(element);
+		
+	}
+	
+	/**
+	 * Linear search for value in list
+	 * @param searchValue
+	 * @param list
+	 * @return index of element if found, null, if no such number exists.
+	 */
+	public static int getIndexByValue(Integer searchValue, LinkedList list) {
+		
+		LinkedList listPointer = list;
+		Integer index = 0;
+		try {
+			while(listPointer.value != searchValue) {
+				listPointer = rest(list);
+				index++;
+			}
+		} catch (NullPointerException e) {
+			index = null;
+		}
+		
+		return index;
+	}
 
 }
