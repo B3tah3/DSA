@@ -1,4 +1,4 @@
-package code;
+package de.dsa.datastructures;
 
 /**
  * ∗Einfach verkettete Liste ∗LeereListe<>istnull;nichtlereListe<a0,...,a(n−1)>
@@ -6,21 +6,21 @@ package code;
  * ∗unddem(Verweisaufden)Rest<a1,...,a(n−1)> ∗
  **/
 
-public class List {
+public class LinkedList {
 
 	private Integer value;
-	private List successor;
+	private LinkedList successor;
 
 	/**
 	 * @param element New head of list
 	 * @param rest    rest of list
 	 */
-	protected List(Integer element, List rest) {
+	protected LinkedList(Integer element, LinkedList rest) {
 		value = element;
 		successor = rest;
 	}
 
-	public static List empty() {
+	public static LinkedList empty() {
 		return null;
 	}
 
@@ -31,7 +31,7 @@ public class List {
 	 * @return First list value
 	 * @throws ListIsEmptyException
 	 */
-	public static int first(final List list) {
+	public static int first(final LinkedList list) {
 		return list.value;
 	}
 
@@ -41,7 +41,7 @@ public class List {
 	 * @param list List to be operatedo on
 	 * @return Reference to rest of list
 	 */
-	public static List rest(final List list) {
+	public static LinkedList rest(final LinkedList list) {
 
 		return list.successor;
 	}
@@ -55,16 +55,16 @@ public class List {
 	 * @param list    List to append to
 	 * @param element Element to append
 	 */
-	public static List append(List list, final int element) {
-		List returnList;
+	public static LinkedList append(LinkedList list, final int element) {
+		LinkedList returnList;
 
 		if (isEmpty(list)) {
 
-			returnList = new List(element, empty());
+			returnList = new LinkedList(element, empty());
 
 		} else {
 
-			returnList = new List(element, list);
+			returnList = new LinkedList(element, list);
 
 		}
 
@@ -77,15 +77,15 @@ public class List {
 	 * @param l1 First list
 	 * @param l2 Second list
 	 */
-	public static List concat(List list1, List list2) {
-		List returnList = list1;
+	public static LinkedList concat(LinkedList list1, LinkedList list2) {
+		LinkedList returnList = list1;
 
 		if (isEmpty(list1)) {
 
 			returnList = list2;
 
 		} else {
-			List listPointer = list1;
+			LinkedList listPointer = list1;
 
 			while (!isEmpty(rest(listPointer))) {
 				listPointer = rest(listPointer);
@@ -98,11 +98,11 @@ public class List {
 
 	}
 
-	public static List copy(List list) {
+	public static LinkedList copy(LinkedList list) {
 
-		List copy = empty();
+		LinkedList copy = empty();
 		if (list != null) {
-			List currentElement = list;
+			LinkedList currentElement = list;
 			if (!isEmpty(currentElement.successor)) {
 				copy(currentElement.successor);
 			}
@@ -118,7 +118,7 @@ public class List {
 	 * @param list List to be checked
 	 * @return True if empty, false otherwise
 	 */
-	public static boolean isEmpty(List list) {
+	public static boolean isEmpty(LinkedList list) {
 		return list == null;
 	}
 
