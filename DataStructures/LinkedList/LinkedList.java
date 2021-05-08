@@ -15,7 +15,7 @@ public class LinkedList {
 	 * @param element New head of list
 	 * @param rest    rest of list
 	 */
-	protected LinkedList(Integer element, LinkedList rest) {
+	public LinkedList(Integer element, LinkedList rest) {
 		value = element;
 		successor = rest;
 	}
