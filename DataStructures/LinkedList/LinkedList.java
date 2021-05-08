@@ -248,7 +248,7 @@ public class LinkedList {
 	 */
 	public static LinkedList insertAt(int index, LinkedList element, LinkedList list) throws IndexOutOfBoundsException{
 		
-		boolean isAppend = hasIndex(index - 1, list);	
+		boolean isAppend = hasIndex(index - 1, list) && !hasIndex(index, list);	
 		if(!hasIndex(index, list) && !isAppend) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -256,6 +256,7 @@ public class LinkedList {
 		LinkedList returnList = list;
 		LinkedList beforeIndex;
 		LinkedList atIndex;
+		
 		
 		if(index == 0) {
 			concat(element, list);
@@ -283,7 +284,7 @@ public class LinkedList {
 	 */
 	public static LinkedList moveFromTo(int from, int to, LinkedList list) throws IndexOutOfBoundsException {
 		boolean hasFrom = hasIndex(from, list);
-		boolean hasTo = hasIndex(to, list) || hasIndex(to - 1, list);
+		boolean hasTo = hasIndex(to, list);
 		
 		if(!hasFrom || !hasTo) {
 			throw new IndexOutOfBoundsException();
@@ -294,7 +295,7 @@ public class LinkedList {
 		
 		if(from != to) {
 			returnList = removeIndex(from, returnList);
-			returnList = insertAt(to, moveElement, returnList); 
+			returnList = insertAt(to, moveElement, returnList);
 		}
 		
 		return returnList;
