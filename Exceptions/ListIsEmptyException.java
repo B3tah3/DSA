@@ -1,4 +1,4 @@
-package code;
+package de.dsa.Exceptions;
 
 public class ListIsEmptyException extends Exception {
 
