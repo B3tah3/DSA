@@ -330,7 +330,7 @@ public class LinkedList {
 		Integer index = 0;
 		try {
 			while(listPointer.value != searchValue) {
-				listPointer = rest(list);
+				listPointer = rest(listPointer);
 				index++;
 			}
 		} catch (NullPointerException e) {
