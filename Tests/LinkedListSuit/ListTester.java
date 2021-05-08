@@ -53,6 +53,44 @@ public class ListTester {
 		testMoveFromTo();
 		printSeperator();
 		
+		//Testsuit for getIndexByValue
+		System.out.println("TESTING GETINDEXBYVALUE");
+		testGetIndexByValue();
+		printSeperator();
+		
+		//Testsuit for getValueByIndex
+		System.out.println("TESTING GETVALUEBYINDEX");
+		testGetValueByIndex();
+		printSeperator();
+		
+	}
+	
+	@Test
+	private static void testGetValueByIndex() {
+		LinkedList m = initLinkedList();
+		
+		System.out.print("List:");
+		print(m);
+		
+		for(int i = 0; i<6; i++) {
+			try {
+				System.out.format("The Value of Index %d is: %d\n", i, LinkedList.getValueByIndex(i, m));
+			} catch(IndexOutOfBoundsException e) {
+				System.out.format("The Value of Index %d is: %s\n", i, e);
+			}
+		}
+	}
+	
+	@Test
+	private static void testGetIndexByValue() {
+		LinkedList m = initLinkedList();
+		
+		System.out.print("List:");
+		print(m);
+		
+		for(int i = 0; i<7; i++) {
+			System.out.format("The Index of Value %d is: %d\n", i, LinkedList.getIndexByValue(i, m));
+		}
 	}
 	
 	@Test
