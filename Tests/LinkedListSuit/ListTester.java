@@ -2,6 +2,7 @@ package de.dsa.Tests.LinkedList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import de.dsa.datastructures;
 
 public class ListTester {
 
