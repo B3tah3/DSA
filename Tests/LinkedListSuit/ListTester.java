@@ -88,8 +88,12 @@ public class ListTester {
 		System.out.print("List:");
 		print(m);
 		
-		for(int i = 0; i<7; i++) {
-			System.out.format("The Index of Value %d is: %d\n", i, LinkedList.getIndexByValue(i, m));
+		for(int i = 0; i<6; i++) {
+			try {
+				System.out.format("The Index of Value %d is: %d\n", i, LinkedList.getIndexByValue(i, m));
+			} catch (NullPointerException e) {
+				System.out.format("The Index of Value %d is: null\n", i);
+			}
 		}
 	}
 	
