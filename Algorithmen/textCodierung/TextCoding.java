@@ -23,14 +23,18 @@ public class TextCoding {
 
 		for (int i = 0; i < text.length; i++) {
 			int character = text[i];
-			textResult[i] = moveToFront(character);
+			int charIndex = LinkedList.getIndexByValue(character, alphabet);
+			alphabet = LinkedList.moveFromTo(charIndex, 0, alphabet);
+			textResult[i] = charIndex;
 		}
 
 		characterCoding.writeToFile(path + "faust_compressed.txt", textResult);
 
 		// Reconstructing
+		alphabet = generateAlphabet(111);
 		int[] textReconstruct = new int[textResult.length];
-		for (int i = textResult.length - 1; i >= 0; i--) {
+		for (int i = 0; i < textResult.length; i++) {
+
 			int index = textResult[i];
 			textReconstruct[i] = sortBack(index);
 		}
@@ -39,28 +43,28 @@ public class TextCoding {
 
 	}
 
-	/**
-	 * 
-	 * @param character the charater to be searched and moved to the front
-	 * @return the index where the character was found
-	 */
-	private static int moveToFront(int character) {
-
-		int charIndex = LinkedList.getIndexByValue(character, alphabet);
-
-		alphabet = LinkedList.moveFromTo(charIndex, 0, alphabet);
-
-		return charIndex;
-	}
-
-	private static int sortBack(int index) {
-
-		int character = LinkedList.first(alphabet);
-
-		alphabet = LinkedList.moveFromTo(0, index, alphabet);
-
-		return character;
-	}
+//	/**
+//	 * Not the clean
+//	 * @param character the charater to be searched and moved to the front
+//	 * @return the index where the character was found
+//	 */
+//	private static int moveToFront(int character) {
+//
+//		int charIndex = LinkedList.getIndexByValue(character, alphabet);
+//
+//		alphabet = LinkedList.moveFromTo(charIndex, 0, alphabet);
+//
+//		return charIndex;
+//	}
+//
+//	private static int sortBack(int index) {
+//
+//		int character = LinkedList.first(alphabet);
+//
+//		alphabet = LinkedList.moveFromTo(0, index, alphabet);
+//
+//		return character;
+//	}
 
 	/**
 	 * Creates a Linked List filled with numbers from 0 to m-1

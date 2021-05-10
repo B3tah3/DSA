@@ -28,7 +28,7 @@ public class CharacterCoding {
 	/**
 	 * Abbildung Zeichen auf Code
 	 */
-	public Map<Character, Integer> code;
+	private Map<Character, Integer> code;
 
 	/**
 	 * Erzeugt das Standardalphabet (95 druckbare Zeichen + &Auml;, &Ouml;, &Uuml;,
