@@ -1,7 +1,10 @@
 package LinkedList;
 
+import listExceptions.ListIsEmptyException;
+
 /**
- * ∗Einfach verkettete Liste ∗LeereListe<>istnull;nichtlereListe<a0,...,a(n−1)>
+ * ∗Einfach verkettete Liste
+ * ∗LeereListe<>istnull;nichtlereListe<a0,...,a(n−1)>
  * ∗bestehtauseinemListenkopfmitBeschriftunga0
  * ∗unddem(Verweisaufden)Rest<a1,...,a(n−1)> ∗
  **/
@@ -121,104 +124,109 @@ public class LinkedList {
 	public static boolean isEmpty(LinkedList list) {
 		return list == null;
 	}
-	
+
 	/**
 	 * Searches list for specified index
-	 * @param index 
-	 * @param list 
+	 * 
+	 * @param index
+	 * @param list
 	 * @return list element at specified index
 	 * @throws IndexOutOfBoundsException If index exceeds list length
 	 */
 	private static LinkedList linearSearchIndex(int index, LinkedList list) throws IndexOutOfBoundsException {
-		
-		if(index < 0) {
+
+		if (index < 0) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		LinkedList returnList = list;
-		for(int i = 0; i < index; i++) {
-			
-			if(!isEmpty(rest(returnList))) {
+		for (int i = 0; i < index; i++) {
+
+			if (!isEmpty(rest(returnList))) {
 				returnList = rest(returnList);
 			} else {
 				throw new IndexOutOfBoundsException();
 			}
-			
+
 		}
-		
+
 		return returnList;
 	}
-	
+
 	/**
 	 * Checks if index is contained in list
+	 * 
 	 * @param index
 	 * @param list
 	 * @return true if in list else false
 	 */
 	public static boolean hasIndex(int index, LinkedList list) {
 		boolean returnValue = true;
-		
+
 		try {
 			linearSearchIndex(index, list);
 		} catch (IndexOutOfBoundsException e) {
 			returnValue = false;
 		}
-		
+
 		return returnValue;
 	}
-	
+
 	/**
 	 * Removes element at index
+	 * 
 	 * @param index
 	 * @param list
 	 * @throws IndexOutOfBoundsException
 	 * @return First element of list
 	 */
-	public static LinkedList removeIndex(int index, LinkedList list) throws IndexOutOfBoundsException{
-		
-		if(!hasIndex(index, list)) {
+	public static LinkedList removeIndex(int index, LinkedList list) throws IndexOutOfBoundsException {
+
+		if (!hasIndex(index, list)) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		boolean isLastIndex = !hasIndex(index + 1, list);
 		LinkedList returnList = list;
 		LinkedList beforeIndex;
 		LinkedList atIndex;
 		LinkedList afterIndex;
-		
-		if(index == 0 && !isLastIndex) {
+
+		if (index == 0 && !isLastIndex) {
 			atIndex = list;
 			afterIndex = linearSearchIndex(1, list);
-			
+
 			atIndex.successor = empty();
 			returnList = afterIndex;
-			
-		} else if(index == 0 && isLastIndex) {
+
+		} else if (index == 0 && isLastIndex) {
 			atIndex = list;
-		
+
 			atIndex.successor = empty();
 			returnList = empty();
-			
-		} else if(isLastIndex) {
+
+		} else if (isLastIndex) {
 			beforeIndex = linearSearchIndex(index - 1, list);
 			atIndex = linearSearchIndex(1, beforeIndex);
-			
+
 			beforeIndex.successor = empty();
-			
+
 		} else {
 			beforeIndex = linearSearchIndex(index - 1, list);
 			atIndex = linearSearchIndex(1, beforeIndex);
 			afterIndex = linearSearchIndex(1, atIndex);
-			
+
 			beforeIndex.successor = afterIndex;
 			atIndex.successor = empty();
 		}
-		
+
 		return returnList;
 	}
-	
+
 	/**
-	 * Inserts Int and index. Can also append, so an index of lastIndex + 1 is allowed.
+	 * Inserts Int and index. Can also append, so an index of lastIndex + 1 is
+	 * allowed.
+	 * 
 	 * @param index
 	 * @param element
 	 * @param list
@@ -228,37 +236,38 @@ public class LinkedList {
 	public static LinkedList insertAt(int index, Integer element, LinkedList list) throws IndexOutOfBoundsException {
 		LinkedList returnList;
 		LinkedList listElement = new LinkedList(element, null);
-		
+
 		try {
 			returnList = insertAt(index, listElement, list);
 		} catch (IndexOutOfBoundsException e) {
 			throw e;
 		}
-		
+
 		return returnList;
 	}
-	
+
 	/**
-	 * Inserts List element at index. Can also append so an index of lastIndex + 1 is allowed.
+	 * Inserts List element at index. Can also append so an index of lastIndex + 1
+	 * is allowed.
+	 * 
 	 * @param index
 	 * @param element
 	 * @param list
 	 * @return First elemen of list
 	 * @throws IndexOutOfBoundsException
 	 */
-	public static LinkedList insertAt(int index, LinkedList element, LinkedList list) throws IndexOutOfBoundsException{
-		
-		boolean isAppend = hasIndex(index - 1, list) && !hasIndex(index, list);	
-		if(!hasIndex(index, list) && !isAppend) {
+	public static LinkedList insertAt(int index, LinkedList element, LinkedList list) throws IndexOutOfBoundsException {
+
+		boolean isAppend = hasIndex(index - 1, list) && !hasIndex(index, list);
+		if (!hasIndex(index, list) && !isAppend) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		LinkedList returnList = list;
 		LinkedList beforeIndex;
 		LinkedList atIndex;
-		
-		
-		if(index == 0) {
+
+		if (index == 0) {
 			concat(element, list);
 			returnList = element;
 		} else if (isAppend) {
@@ -266,16 +275,17 @@ public class LinkedList {
 		} else {
 			beforeIndex = linearSearchIndex(index - 1, list);
 			atIndex = linearSearchIndex(1, beforeIndex);
-			
+
 			beforeIndex.successor = element;
 			element.successor = atIndex;
 		}
-		
+
 		return returnList;
 	}
-	
+
 	/**
 	 * Moves element in list
+	 * 
 	 * @param from
 	 * @param to
 	 * @param list
@@ -285,59 +295,93 @@ public class LinkedList {
 	public static LinkedList moveFromTo(int from, int to, LinkedList list) throws IndexOutOfBoundsException {
 		boolean hasFrom = hasIndex(from, list);
 		boolean hasTo = hasIndex(to, list);
-		
-		if(!hasFrom || !hasTo) {
+
+		if (!hasFrom || !hasTo) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		LinkedList returnList = list;
-		LinkedList moveElement = linearSearchIndex(from, list); 
-		
-		if(from != to) {
+		LinkedList moveElement = linearSearchIndex(from, list);
+
+		if (from != to) {
 			returnList = removeIndex(from, returnList);
 			returnList = insertAt(to, moveElement, returnList);
 		}
-		
+
 		return returnList;
 	}
-	
+
 	/**
 	 * Function to search values by index
+	 * 
 	 * @param index
 	 * @param list
 	 * @return value at index
 	 * @throws IndexOutOfBoundsException
 	 */
 	public static int getValueByIndex(int index, LinkedList list) throws IndexOutOfBoundsException {
-		if(!hasIndex(index, list)) {
+		if (!hasIndex(index, list)) {
 			throw new IndexOutOfBoundsException();
-		} 
-		
+		}
+
 		LinkedList element = linearSearchIndex(index, list);
 		return first(element);
-		
+
 	}
-	
+
 	/**
 	 * Linear search for value in list
+	 * 
 	 * @param searchValue
 	 * @param list
 	 * @return index of element if found, null, if no such number exists.
 	 */
 	public static int getIndexByValue(Integer searchValue, LinkedList list) {
-		
+
 		LinkedList listPointer = list;
 		Integer index = 0;
 		try {
-			while(listPointer.value != searchValue) {
+			while (listPointer.value != searchValue) {
 				listPointer = rest(listPointer);
 				index++;
 			}
 		} catch (NullPointerException e) {
 			index = null;
 		}
-		
+
 		return index;
+	}
+
+	@Override
+	public String toString() {
+		LinkedList a = copy(this);
+		String s = "(";
+		if (!LinkedList.isEmpty(a)) {
+			s += (LinkedList.first(a));
+			a = LinkedList.rest(a);
+		}
+		while (!LinkedList.isEmpty(a)) {
+
+			s += ", " + LinkedList.first(a);
+			a = LinkedList.rest(a);
+		}
+		s += ")";
+		return s;
+	}
+
+	public int length() {
+		LinkedList a = copy(this);
+		int length = 0;
+		if (!LinkedList.isEmpty(a)) {
+			length++;
+			a = LinkedList.rest(a);
+		}
+		while (!LinkedList.isEmpty(a)) {
+
+			length++;
+			a = LinkedList.rest(a);
+		}
+		return length;
 	}
 
 }
