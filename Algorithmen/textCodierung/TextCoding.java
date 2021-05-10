@@ -3,22 +3,23 @@ package textCodierung;
 import java.io.IOException;
 
 import LinkedList.LinkedList;
+import textCodierung.CharacterCodingLib.CharacterCoding;
 
 public class TextCoding {
 
-	static LinkedList alphabet = generateAlphabet(111);
-
-	/*
-	 * Main Method that processes the text into it's compressed form and then
-	 * reconstructs it
+	/**
+	 * Transformes a text
+	 * 
+	 * @param loadPath Path to load text from
+	 * @param outPath  path to save transformed text to.
+	 * @throws IOException
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void applyTransform(String loadPath, String outPath) throws IOException {
 
 		CharacterCoding characterCoding = new CharacterCoding();
+		LinkedList alphabet = generateAlphabet(111);
 
-		String path = "Algorithmen/textCodierung/";
-
-		int[] text = characterCoding.readFromFile(path + "faust.txt");
+		int[] text = characterCoding.readFromFile(loadPath);
 		int[] textResult = new int[text.length];
 
 		for (int i = 0; i < text.length; i++) {
@@ -28,43 +29,39 @@ public class TextCoding {
 			textResult[i] = charIndex;
 		}
 
-		characterCoding.writeToFile(path + "faust_compressed.txt", textResult);
-
-		// Reconstructing
-		alphabet = generateAlphabet(111);
-		int[] textReconstruct = new int[textResult.length];
-		for (int i = 0; i < textResult.length; i++) {
-
-			int index = textResult[i];
-			textReconstruct[i] = sortBack(index);
-		}
-
-		characterCoding.writeToFile(path + "faust_reconstructed.txt", textReconstruct);
+		characterCoding.writeToFile(outPath, textResult);
 
 	}
 
-//	/**
-//	 * Not the clean
-//	 * @param character the charater to be searched and moved to the front
-//	 * @return the index where the character was found
-//	 */
-//	private static int moveToFront(int character) {
-//
-//		int charIndex = LinkedList.getIndexByValue(character, alphabet);
-//
-//		alphabet = LinkedList.moveFromTo(charIndex, 0, alphabet);
-//
-//		return charIndex;
-//	}
-//
-//	private static int sortBack(int index) {
-//
-//		int character = LinkedList.first(alphabet);
-//
-//		alphabet = LinkedList.moveFromTo(0, index, alphabet);
-//
-//		return character;
-//	}
+	/**
+	 * Reconstructs a transformed text, transformed by applyTransform()
+	 * 
+	 * @param loadPath Path to lead transformed text from
+	 * @param outPath  Path to save reconstructed text to
+	 * @throws IOException
+	 */
+	public static void applyReverseTransform(String loadPath, String outPath) throws IOException {
+
+		CharacterCoding characterCoding = new CharacterCoding();
+		LinkedList alphabet = generateAlphabet(111);
+
+		int[] text = characterCoding.readFromFile(loadPath);
+		int[] textReconstruct = new int[text.length];
+
+		for (int i = 0; i < text.length; i++) {
+
+			int index = text[i];
+			int character = LinkedList.getValueByIndex(index, alphabet);
+
+			alphabet = LinkedList.moveFromTo(index, 0, alphabet);
+
+			// int character = LinkedList.first(alphabet);
+
+			textReconstruct[i] = character;
+		}
+
+		characterCoding.writeToFile(outPath, textReconstruct);
+	}
 
 	/**
 	 * Creates a Linked List filled with numbers from 0 to m-1
@@ -74,7 +71,7 @@ public class TextCoding {
 	 */
 	private static LinkedList generateAlphabet(int m) {
 		LinkedList alphabet = LinkedList.empty();
-		for (int i = 0; i < m; i++) {
+		for (int i = m - 1; i >= 0; i--) {
 			alphabet = LinkedList.append(alphabet, i);
 		}
 		return alphabet;

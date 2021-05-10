@@ -1,4 +1,4 @@
-package textCodierung;
+package textCodierung.CharacterCodingLib;
 
 import java.io.FileReader;
 import java.io.FileWriter;
