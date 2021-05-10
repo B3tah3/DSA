@@ -5,12 +5,12 @@ import textCodierung.CharacterCodingLib.CharacterCoding;
 
 public class MoveToFrontTransformTest {
 
-	public static void main(String[] args) throws IOException {
+	static String basePath = "Tests/MoveToFrontTransform.";
+	static String pathInput = basePath + "/input/faust.txt";
+	static String pathTransformed = basePath + "/output/faust_transformed.txt";
+	static String pathReconstructed = basePath + "/output/faust_reconstructed.txt";
 
-		String basePath = "Tests/MoveToFrontTransform.";
-		String pathInput = basePath + "/input/faust.txt";
-		String pathTransformed = basePath + "/output/faust_transformed.txt";
-		String pathReconstructed = basePath + "/output/faust_reconstructed.txt";
+	public static void main(String[] args) throws IOException {
 
 		TextCoding.applyTransform(pathInput, pathTransformed);
 		TextCoding.applyReverseTransform(pathTransformed, pathReconstructed);
@@ -34,9 +34,20 @@ public class MoveToFrontTransformTest {
 		}
 		System.out.println("Reconstruction is " + (isCorrect ? "successful" : "incorrect"));
 
+		System.out.println("Size of original Text: " + sumOverText(pathInput));
+		System.out.println("Size of compressed Text: " + sumOverText(pathTransformed));
+
 	}
 
-	// private static long sumOverText(String inputPath) {
-	// ;
-	// }
+	private static long sumOverText(String inputPath) throws IOException {
+		CharacterCoding cc = new CharacterCoding();
+		int text[] = cc.readFromFile(inputPath);
+		long textSum = 0;
+		for (int i : text) {
+			textSum += i;
+		}
+
+		return textSum;
+
+	}
 }
