@@ -1,4 +1,4 @@
-package Exceptions;
+package listExceptions;
 
 
 public class ListIsEmptyException extends Exception {
