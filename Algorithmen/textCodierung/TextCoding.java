@@ -30,7 +30,7 @@ public class TextCoding {
 
 		// Reconstructing
 		int[] textReconstruct = new int[textResult.length];
-		for (int i = textResult.length - 1; i > 0; i--) {
+		for (int i = textResult.length - 1; i >= 0; i--) {
 			int index = textResult[i];
 			textReconstruct[i] = sortBack(index);
 		}
