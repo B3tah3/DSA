@@ -58,6 +58,7 @@ public class Tree<DataType> {
 	}
 
 	/**
+	 * change
 	 * 
 	 * @return
 	 * @throws TreeIsEmptyException
