@@ -58,9 +58,8 @@ public class Tree<DataType> {
 	}
 
 	/**
-	 * change
+	 * Returns key of tree node
 	 * 
-	 * @return
 	 * @throws TreeIsEmptyException
 	 */
 	public DataType key() throws TreeIsEmptyException {
@@ -72,6 +71,10 @@ public class Tree<DataType> {
 
 	}
 
+	/**
+	 * Task b) Prints all the leaves of this tree, and the path to get to them in
+	 * binary representation
+	 */
 	public void printLeavesAndPath() {
 		if (this.isEmpty()) {
 			System.out.println("empty");
@@ -80,6 +83,12 @@ public class Tree<DataType> {
 		}
 	}
 
+	/**
+	 * Task b): Private helper for init.
+	 * 
+	 * @param node
+	 * @param path
+	 */
 	private void printLeavesAndPath(TreeNode<DataType> node, String path) {
 		if (node.hasLeft()) {
 			this.printLeavesAndPath(node.getLeft(), path + "0");
@@ -95,11 +104,23 @@ public class Tree<DataType> {
 
 	}
 
+	/**
+	 * Task c): Displays a tree in the format of [u]v if u is the treeStructure of l
+	 * and v the tree structure of r, where the tree is (l, x, r)
+	 * 
+	 * @return String representation of tree structure
+	 */
 	public String treeStructure() {
 
 		return treeStructure(root);
 	}
 
+	/**
+	 * Task c): Private helper for init.
+	 * 
+	 * @param node
+	 * @return
+	 */
 	private String treeStructure(TreeNode<DataType> node) {
 		String structure = "";
 
@@ -118,6 +139,12 @@ public class Tree<DataType> {
 		return structure;
 	}
 
+	/**
+	 * builds tree using disected Strings representing left and right subtrees
+	 * 
+	 * @param in String to build tree from
+	 * @return fully build tree
+	 */
 	public static Tree<String> buildTreeFomString(String in) {
 		Tree<String> left;
 		Tree<String> right;
@@ -141,6 +168,14 @@ public class Tree<DataType> {
 		return new Tree<String>(left, in, right);
 	}
 
+	/**
+	 * Splits a given String into a two substring, the left one is determined by the
+	 * outermost brackets, the right one is the outside remaining on the right
+	 * 
+	 * @param in The String to be Split
+	 * @return A 2 Element String Array with both Substrings
+	 * @throws IllegalArgumentException
+	 */
 	private static String[] substringsLeftAndRight(String in) throws IllegalArgumentException {
 
 		StringBuilder builder = new StringBuilder(in);
