@@ -72,37 +72,104 @@ public class Tree<DataType> {
 
 	}
 
-	public void binaryCodingPrintInorder() {
+	public void printLeavesAndPath() {
 		if (this.isEmpty()) {
 			System.out.println("empty");
 		} else {
-			binaryCodingPrintInorder(this.root);
+			printLeavesAndPath(this.root, "");
 		}
 	}
 
-	private void binaryCodingPrintInorder(TreeNode<DataType> node) {
+	private void printLeavesAndPath(TreeNode<DataType> node, String path) {
 		if (node.hasLeft()) {
-			this.binaryCodingPrintInorder(node.getLeft());
+			this.printLeavesAndPath(node.getLeft(), path + "0");
 		}
 
-		System.out.println(node.getValue());
+		if (!node.hasLeft() && !node.hasRight()) {
+			System.out.println(node.getValue() + ", path: " + path);
+		}
 
 		if (node.hasRight()) {
-			this.binaryCodingPrintInorder(node.getRight());
+			this.printLeavesAndPath(node.getRight(), path + "1");
 		}
 
 	}
 
-//	public String treeStructure() {
-//		String structure = "";
-//		if (node.hasLeft()) {
-//			structure += root.getLeft().tree;
-//		}
-//
-//		if (node.hasRight()) {
-//			this.binaryCodingPrintInorder(node.getRight());
-//		}
-//	}
+	public String treeStructure() {
+
+		return treeStructure(root);
+	}
+
+	private String treeStructure(TreeNode<DataType> node) {
+		String structure = "";
+
+		structure += "[";
+
+		if (node.hasLeft()) {
+			structure += treeStructure(node.getLeft());
+		}
+
+		structure += "]";
+
+		if (node.hasRight()) {
+			structure += treeStructure(node.getRight());
+		}
+
+		return structure;
+	}
+
+	public static Tree<String> buildTreeFomString(String in) {
+		Tree<String> left;
+		Tree<String> right;
+
+		String[] substrings = substringsLeftAndRight(in);
+		String leftString = substrings[0];
+
+		if (leftString.isEmpty()) {
+			left = new Tree<String>();
+		} else {
+			left = buildTreeFomString(leftString);
+		}
+
+		String rightString = substrings[1];
+		if (rightString.isEmpty()) {
+			right = new Tree<String>();
+		} else {
+			right = buildTreeFomString(rightString);
+		}
+
+		return new Tree<String>(left, in, right);
+	}
+
+	private static String[] substringsLeftAndRight(String in) throws IllegalArgumentException {
+
+		StringBuilder builder = new StringBuilder(in);
+		int counter = 0;
+		StringBuilder stringA = new StringBuilder();
+
+		do {
+			if (builder.charAt(0) == '[') {
+				counter++;
+			} else if (builder.charAt(0) == ']') {
+				counter--;
+			} else {
+				throw new IllegalArgumentException("no non '[]' characters allowed");
+			}
+			stringA.append(builder.charAt(0));
+			builder.deleteCharAt(0);
+
+		} while (counter > 0);
+
+		if (counter < 0) {
+			throw new IllegalArgumentException("invalid String Expression");
+		}
+
+		stringA.deleteCharAt(0);
+		stringA.deleteCharAt(stringA.length() - 1);
+
+		return new String[] { stringA.toString(), builder.toString() };
+
+	}
 
 	private TreeNode<DataType> getRoot() {
 		return this.root;
