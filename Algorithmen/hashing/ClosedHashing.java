@@ -38,7 +38,7 @@ public class ClosedHashing {
 
 		float averageSearchSteps = sum / (float) numKeys;
 
-		System.out.println("Groesse der Hashtabelle: " + sizeHashtable);
+		System.out.println("Groesse der Hashtabelle : " + sizeHashtable);
 		System.out.println("Anzahl eingefuegter Schluessel: " + numKeys);
 		System.out.println(tableToString(table));
 		System.out.println("Mittle Sondierungsschritte bei erfolgloser Suche: " + averageSearchSteps);
