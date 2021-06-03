@@ -2,8 +2,8 @@ package tree;
 
 public class TreeNode<DataType> {
 
-	private TreeNode<DataType> left;
-	private TreeNode<DataType> right;
+	protected TreeNode<DataType> left;
+	protected TreeNode<DataType> right;
 	private DataType value;
 
 	public TreeNode(final DataType i) {
@@ -13,9 +13,9 @@ public class TreeNode<DataType> {
 	}
 
 	public TreeNode(final DataType value, final TreeNode<DataType> right) {
-		this.left = right;
+		this.left = null;
 		this.value = value;
-		this.right = null;
+		this.right = right;
 	}
 
 	public TreeNode(final TreeNode<DataType> left, final DataType value) {

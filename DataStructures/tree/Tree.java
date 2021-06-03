@@ -206,7 +206,8 @@ public class Tree<DataType> {
 
 	}
 
-	private TreeNode<DataType> getRoot() {
+	public TreeNode<DataType> getRoot() {
+
 		return this.root;
 	}
 }
