@@ -5,6 +5,7 @@ public class TreeNode<DataType> {
 	protected TreeNode<DataType> left;
 	protected TreeNode<DataType> right;
 	private DataType value;
+	private int height, balance, nodeCount, depthSum;
 
 	public TreeNode(final DataType i) {
 		this.left = null;
@@ -96,4 +97,61 @@ public class TreeNode<DataType> {
 		return this.left != null;
 	}
 
+	public int getHeight() {
+		return height;
+	}
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public int getNodeCount() {
+		return nodeCount;
+	}
+
+	public int getDepthSum() {
+		return depthSum;
+	}
+
+	public void setTreeData() {
+
+		int rightHeight = -1;
+		int leftHeight = -1;
+
+		int rightNodeCount = 0;
+		int leftNodeCount = 0;
+
+		int rightDepthSum = 0;
+		int leftDepthSum = 0;
+
+		if (right != null) {
+			right.setTreeData();
+
+			rightHeight = right.height;
+
+			rightNodeCount = right.nodeCount;
+			rightDepthSum = right.depthSum;
+		}
+
+		if (left != null) {
+			left.setTreeData();
+
+			leftHeight = left.height;
+			leftNodeCount = left.nodeCount;
+			leftDepthSum = left.depthSum;
+		}
+
+		height = Math.max(rightHeight, leftHeight) + 1;
+		balance = leftHeight - rightHeight;
+		nodeCount = rightNodeCount + leftNodeCount + 1;
+		depthSum = rightDepthSum + rightNodeCount + leftDepthSum + leftNodeCount;
+
+	}
+
+	public String getDataAsString() {
+
+		return String.format("height: %d, balance: %d, nodeCount: %d, depthSum: %d", height, balance, nodeCount,
+				depthSum);
+
+	}
 }

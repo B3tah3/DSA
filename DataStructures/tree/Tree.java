@@ -2,7 +2,7 @@ package tree;
 
 public class Tree<DataType> {
 
-	private TreeNode<DataType> root;
+	protected TreeNode<DataType> root;
 
 	public Tree() {
 		this.root = null;
@@ -137,6 +137,18 @@ public class Tree<DataType> {
 		}
 
 		return structure;
+	}
+
+	public static void printInOrder(TreeNode node) {
+		if (node.hasLeft()) {
+			printInOrder(node.getLeft());
+		}
+
+		System.out.print(node.getValue() + "; ");
+
+		if (node.hasRight()) {
+			printInOrder(node.getRight());
+		}
 	}
 
 	/**
