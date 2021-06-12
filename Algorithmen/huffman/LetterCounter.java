@@ -1,5 +1,6 @@
 package huffman;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -18,22 +19,48 @@ public class LetterCounter {
 		HashMap<Integer, Integer> valueMap = countValuesFromText(new CharacterCoding());
 		writeToFile(valueMap, output);
 
+		// HashMap<Integer, Integer> readList = readValueFromFile();
 	}
 
+	/**
+	 * writes the character value map to a file
+	 * 
+	 * @param valueMap
+	 * @param filename
+	 * @throws IOException
+	 */
 	public static void writeToFile(HashMap<Integer, Integer> valueMap, String filename) throws IOException {
 		FileWriter f = new FileWriter(filename);
 		for (Integer key : valueMap.keySet()) {
-			f.write(key + ", " + valueMap.get(key) + ";\n");
+			f.write(key + ", " + valueMap.get(key) + "\n");
 		}
 		f.close();
 	}
 
-	public static HashMap<Integer, Integer> readValueFromFile() {
-		try (FileReader f = new FileReader(input)) {
-			String line = f.read();
+	/**
+	 * Reads the amount of letters pregenerated in the faustCoding.txt file
+	 * 
+	 * @return
+	 */
+	public static HashMap<Integer, Integer> readCodingFromFile() {
+
+		HashMap<Integer, Integer> characterMap = new HashMap<Integer, Integer>();
+
+		try (BufferedReader f = new BufferedReader(new FileReader(output))) {
+
+			String line;
+			while ((line = f.readLine()) != null) {
+				String[] values = line.split(", ");
+				characterMap.put(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		return new HashMap<Integer, Integer>();
+		return characterMap;
 	}
 
 	/**
@@ -43,17 +70,23 @@ public class LetterCounter {
 	 * @return
 	 */
 	public static HashMap<Integer, Integer> countValuesFromText(CharacterCoding coding) {
+
 		HashMap<Integer, Integer> valueMap = new HashMap<Integer, Integer>();
+
 		try (FileReader f = new FileReader(input)) {
+
 			boolean end = false;
+
 			while (!end) {
 				int c = 0;
+
 				try {
 					c = f.read();
 				} catch (IOException e) {
 					end = true;
 				}
 				if (c != -1) {
+
 					int code = coding.getCode((char) c);
 					if (valueMap.containsKey(code)) {
 						valueMap.put(code, valueMap.get(code) + 1);

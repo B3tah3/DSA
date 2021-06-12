@@ -84,4 +84,16 @@ public class HuffmanTreeNode {
 		return character;
 	}
 
+	public boolean hasNext() {
+		return this.hasLeft() || this.hasRight();
+	}
+
+	HuffmanTreeNode getNext(boolean right) {
+		HuffmanTreeNode returnNode = this.getLeft();
+		if (right) {
+			returnNode = this.getRight();
+		}
+		return returnNode;
+	}
+
 }

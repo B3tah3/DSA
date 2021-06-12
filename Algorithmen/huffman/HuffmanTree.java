@@ -16,7 +16,7 @@ public class HuffmanTree implements Comparable<HuffmanTree> {
 		this.root = root;
 	}
 
-	public HuffmanTree(char character, long value) {
+	public HuffmanTree(int character, long value) {
 		this.root = new HuffmanTreeNode(character, value);
 	}
 
@@ -138,27 +138,37 @@ public class HuffmanTree implements Comparable<HuffmanTree> {
 
 	}
 
-	public HashMap<Integer, Long> leafsAsHashMap() {
+	/**
+	 * 
+	 * @return
+	 */
+	public HashMap<Integer, String> leafsAndPathsAsHashMap() {
 
-		HashMap<Integer, Long> leafMap = new HashMap<>();
-		leafsAsHashMap(root, leafMap);
+		HashMap<Integer, String> leafMap = new HashMap<>();
+		leafsAndPathsAsHashMap(root, leafMap, "");
 
 		return leafMap;
 
 	}
 
-	private void leafsAsHashMap(HuffmanTreeNode node, HashMap<Integer, Long> leafMap) {
+	/**
+	 * 
+	 * @param node
+	 * @param leafMap
+	 * @param path
+	 */
+	private void leafsAndPathsAsHashMap(HuffmanTreeNode node, HashMap<Integer, String> leafMap, String path) {
 
 		if (node.hasLeft()) {
-			leafsAsHashMap(node.getLeft(), leafMap);
+			leafsAndPathsAsHashMap(node.getLeft(), leafMap, path + "0");
 		}
 
 		if (!node.hasLeft() && !node.hasRight()) {
-			leafMap.put(node.getCharacter(), node.getValue());
+			leafMap.put(node.getCharacter(), path);
 		}
 
 		if (node.hasRight()) {
-			leafsAsHashMap(node.getRight(), leafMap);
+			leafsAndPathsAsHashMap(node.getRight(), leafMap, path + "1");
 		}
 
 	}
@@ -198,6 +208,10 @@ public class HuffmanTree implements Comparable<HuffmanTree> {
 		return structure;
 	}
 
+	/**
+	 * 
+	 * @param node
+	 */
 	public static void printInOrder(HuffmanTreeNode node) {
 		if (node.hasLeft()) {
 			printInOrder(node.getLeft());
@@ -215,6 +229,9 @@ public class HuffmanTree implements Comparable<HuffmanTree> {
 		return this.root;
 	}
 
+	/**
+	 * 
+	 */
 	public int compareTo(HuffmanTree t) {
 
 		return (int) (root.getValue() - t.root.getValue());
