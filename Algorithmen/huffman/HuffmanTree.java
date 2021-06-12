@@ -1,5 +1,6 @@
 package huffman;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import tree.TreeIsEmptyException;
@@ -41,7 +42,7 @@ public class HuffmanTree implements Comparable<HuffmanTree> {
 
 		long valueSum = tree1.getRoot().getValue() + tree2.getRoot().getValue();
 
-		HuffmanTree returnTree = new HuffmanTree('-', valueSum);
+		HuffmanTree returnTree = new HuffmanTree(-1, valueSum);
 
 		if (tree1Node.getValue() <= tree2Node.getValue()) {
 
@@ -142,10 +143,10 @@ public class HuffmanTree implements Comparable<HuffmanTree> {
 	 * 
 	 * @return
 	 */
-	public HashMap<Integer, String> leafsAndPathsAsHashMap() {
+	public HashMap<Integer, ArrayList<Boolean>> leafsAndPathsAsHashMap() {
 
-		HashMap<Integer, String> leafMap = new HashMap<>();
-		leafsAndPathsAsHashMap(root, leafMap, "");
+		HashMap<Integer, ArrayList<Boolean>> leafMap = new HashMap<>();
+		leafsAndPathsAsHashMap(root, leafMap, new ArrayList<Boolean>());
 
 		return leafMap;
 
@@ -157,20 +158,33 @@ public class HuffmanTree implements Comparable<HuffmanTree> {
 	 * @param leafMap
 	 * @param path
 	 */
-	private void leafsAndPathsAsHashMap(HuffmanTreeNode node, HashMap<Integer, String> leafMap, String path) {
+	private void leafsAndPathsAsHashMap(HuffmanTreeNode node, HashMap<Integer, ArrayList<Boolean>> leafMap,
+			ArrayList<Boolean> path) {
 
 		if (node.hasLeft()) {
-			leafsAndPathsAsHashMap(node.getLeft(), leafMap, path + "0");
+			ArrayList<Boolean> leftPath = clone(path);
+			leftPath.add(false);
+			leafsAndPathsAsHashMap(node.getLeft(), leafMap, leftPath);
 		}
 
-		if (!node.hasLeft() && !node.hasRight()) {
+		if (!node.hasNext()) {
 			leafMap.put(node.getCharacter(), path);
 		}
 
 		if (node.hasRight()) {
-			leafsAndPathsAsHashMap(node.getRight(), leafMap, path + "1");
+			ArrayList<Boolean> rightPath = clone(path);
+			rightPath.add(true);
+			leafsAndPathsAsHashMap(node.getRight(), leafMap, rightPath);
 		}
 
+	}
+
+	private ArrayList<Boolean> clone(ArrayList<Boolean> orig) {
+		ArrayList<Boolean> clone = new ArrayList<Boolean>();
+		for (boolean b : orig) {
+			clone.add(b);
+		}
+		return clone;
 	}
 
 	/**

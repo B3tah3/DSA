@@ -26,8 +26,19 @@ public class Huffman {
 		String output = "Resources/faustCompressed.txt";
 		String decompressedOutput = "Resources/faustDecompressed.txt";
 
-		compress(input, output);
-		decompress(output, decompressedOutput);
+		ArrayList<Boolean> comp = compress(input, output);
+		System.out.println("Length of compressed binaries: " + comp.size());
+
+		writeStringAsPseudoBinary(output, comp);
+
+		int[] decomp = decompress(comp, decompressedOutput);
+		System.out.println("Length of reconstructed text: " + decomp.length);
+
+		try {
+			coding.writeToFile(decompressedOutput, decomp);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -38,31 +49,27 @@ public class Huffman {
 	 * @param coding
 	 * @throws IOException
 	 */
-	public static void compress(String input, String output) {
+	public static ArrayList<Boolean> compress(String input, String output) {
 
-		int[] text;
+		ArrayList<Boolean> codedText = new ArrayList<>();
 		try {
-			text = coding.readFromFile(input);
-			ArrayList<String> codedText = new ArrayList<String>();
+			int[] text = coding.readFromFile(input);
+			codedText = new ArrayList<Boolean>();
 
 			PriorityQueue<HuffmanTree> codingHeap = buildHeapFromValues();
 			HuffmanTree codingTree = buildTreeFromHeap(codingHeap);
-			HashMap<Integer, String> codingMap = treeToHashMap(codingTree);
-
-			System.out.println(text.length);
+			HashMap<Integer, ArrayList<Boolean>> codingMap = treeToHashMap(codingTree);
 
 			for (int i = 0; i < text.length; i++) {
 
-				codedText.add(codingMap.get(text[i]));
+				codedText.addAll(codingMap.get(text[i]));
 
-				// System.out.println(codedText[i]);
 			}
-
-			writeStringAsPseudoBinary(output, codedText);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return codedText;
 
 	}
 
@@ -72,22 +79,23 @@ public class Huffman {
 	 * @param filepath
 	 * @param coding
 	 */
-	public static void decompress(String inputPath, String outputPath) {
+	public static int[] decompress(ArrayList<Boolean> input, String outputPath) {
 
 		PriorityQueue<HuffmanTree> codingHeap = buildHeapFromValues();
 		HuffmanTree codingTree = buildTreeFromHeap(codingHeap);
 
-		boolean[] input = readCompressedFromPseudoBinary(inputPath);
+		// boolean[] input = readCompressedFromPseudoBinary(inputPath);
 
-		HuffmanParser parser = new HuffmanParser(codingTree, input);
+		HuffmanParser parser = new HuffmanParser(codingTree, toBooleanArray(input.toArray()));
 		int[] output = parser.parse();
 
-		try {
-			coding.writeToFile(outputPath, output);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return output;
+//		try {
+//			coding.writeToFile(outputPath, output);
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 	}
 
@@ -117,7 +125,8 @@ public class Huffman {
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	private static HashMap<Integer, String> treeToHashMap(HuffmanTree tree) throws IllegalArgumentException {
+	private static HashMap<Integer, ArrayList<Boolean>> treeToHashMap(HuffmanTree tree)
+			throws IllegalArgumentException {
 
 		if (tree.isEmpty() || tree == null) {
 			throw new IllegalArgumentException("Heap may not be null or empty");
@@ -181,13 +190,15 @@ public class Huffman {
 		return toBooleanArray(boolList.toArray());
 	}
 
-	public static void writeStringAsPseudoBinary(String filepath, ArrayList<String> text) {
+	public static void writeStringAsPseudoBinary(String filepath, ArrayList<Boolean> text) {
 
 		try {
 			FileWriter f = new FileWriter(filepath);
-			for (String s : text) {
-				f.write(s);
-
+			for (int i = 0; i < text.size(); i++) {
+				f.write(text.get(i) ? "1" : "0");
+				if (i % 100 == 99) {
+					f.write("\n");
+				}
 			}
 			f.close();
 		} catch (IOException e) {

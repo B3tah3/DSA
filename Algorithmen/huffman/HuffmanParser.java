@@ -29,15 +29,16 @@ public class HuffmanParser {
 	 */
 	public int[] parse() {
 		for (int i = 0; i < input.length; i++) {
-			if (pointer.hasNext()) {
-				pointer = pointer.getNext(input[i]);
 
-			} else {
+			pointer = pointer.getNext(input[i]);
+			if (!pointer.hasNext()) {
+				assert (pointer.getCharacter() != -1);
 				output.add(pointer.getCharacter());
 				pointer = root;
 			}
 
 		}
+
 		int[] intArray = toIntArray(output.toArray());
 		return intArray;
 	}
