@@ -70,7 +70,11 @@ public class Graph {
 	 */
 	public VertexList[] allNeighbours;
 
-	private static boolean[] visited;
+	private boolean[] visited;
+
+	private boolean[] visitedTopologyVertex;
+	private boolean[] permanentTopologyVertex;
+	private VertexList list;
 
 	/**
 	 * Graph aus Feld von edges erstellen
@@ -110,9 +114,12 @@ public class Graph {
 			allNeighbours[von] = new VertexList(allNeighbours[von], nach);
 		}
 
-		// Init visited array to false
+		// Init visited array for dfs search
 		visited = new boolean[max + 1];
 
+		// init visited and permanent array for topolgy sort
+		visitedTopologyVertex = new boolean[max + 1];
+		permanentTopologyVertex = new boolean[max + 1];
 	}
 
 	/**
@@ -210,4 +217,45 @@ public class Graph {
 
 		return null;
 	}
+
+	public VertexList topologySort() {
+
+		list = null;
+		// r reset marks
+		for (int i = 0; i < allNeighbours.length; i++) {
+			visitedTopologyVertex[i] = false;
+			permanentTopologyVertex[i] = false;
+		}
+
+		for (int i = 0; i < allNeighbours.length; i++) {
+			if (!permanentTopologyVertex[i]) {
+				visit(i);
+			}
+		}
+		return list;
+
+	}
+
+	private void visit(int n) {
+		if (permanentTopologyVertex[n]) {
+			return;
+		}
+		if (visitedTopologyVertex[n]) {
+			throw new IllegalArgumentException("Zyklus entdeckt bei Knoten " + n);
+		}
+
+		visitedTopologyVertex[n] = true;
+
+		VertexList neighbour = allNeighbours[n];
+		while (neighbour != null) {
+			visit(neighbour.vertex);
+			neighbour = neighbour.succ;
+		}
+
+		visitedTopologyVertex[n] = false;
+		permanentTopologyVertex[n] = true;
+
+		list = new VertexList(list, n);
+	}
+
 }
