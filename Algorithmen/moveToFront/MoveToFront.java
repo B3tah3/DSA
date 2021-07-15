@@ -1,11 +1,10 @@
-package textCodierung;
+package moveToFront;
 
 import java.io.IOException;
 
 import LinkedList.LinkedList;
-import textCodierung.CharacterCodingLib.CharacterCoding;
 
-public class TextCoding {
+public class MoveToFront {
 
 	/**
 	 * Transformes a text
@@ -14,22 +13,20 @@ public class TextCoding {
 	 * @param outPath  path to save transformed text to.
 	 * @throws IOException
 	 */
-	public static void applyTransform(String loadPath, String outPath) throws IOException {
+	public static int[] applyTransform(int[] textInput) throws IOException {
 
-		CharacterCoding characterCoding = new CharacterCoding();
 		LinkedList alphabet = generateAlphabet(111);
 
-		int[] text = characterCoding.readFromFile(loadPath);
-		int[] textResult = new int[text.length];
+		int[] textResult = new int[textInput.length];
 
-		for (int i = 0; i < text.length; i++) {
-			int character = text[i];
+		for (int i = 0; i < textInput.length; i++) {
+			int character = textInput[i];
 			int charIndex = LinkedList.getIndexByValue(character, alphabet);
 			alphabet = LinkedList.moveFromTo(charIndex, 0, alphabet);
 			textResult[i] = charIndex;
 		}
 
-		characterCoding.writeToFile(outPath, textResult);
+		return textResult;
 
 	}
 
@@ -40,27 +37,24 @@ public class TextCoding {
 	 * @param outPath  Path to save reconstructed text to
 	 * @throws IOException
 	 */
-	public static void applyReverseTransform(String loadPath, String outPath) throws IOException {
+	public static int[] applyReverseTransform(int[] textInput) throws IOException {
 
-		CharacterCoding characterCoding = new CharacterCoding();
 		LinkedList alphabet = generateAlphabet(111);
 
-		int[] text = characterCoding.readFromFile(loadPath);
-		int[] textReconstruct = new int[text.length];
+		int[] textReconstruct = new int[textInput.length];
 
-		for (int i = 0; i < text.length; i++) {
+		for (int i = 0; i < textInput.length; i++) {
 
-			int index = text[i];
+			int index = textInput[i];
 			int character = LinkedList.getValueByIndex(index, alphabet);
 
 			alphabet = LinkedList.moveFromTo(index, 0, alphabet);
 
-			// int character = LinkedList.first(alphabet);
-
 			textReconstruct[i] = character;
 		}
 
-		characterCoding.writeToFile(outPath, textReconstruct);
+		return textReconstruct;
+
 	}
 
 	/**

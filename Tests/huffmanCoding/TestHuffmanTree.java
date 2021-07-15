@@ -1,4 +1,4 @@
-package testsHuffmanCoding;
+package huffmanCoding;
 
 import huffman.HuffmanTree;
 

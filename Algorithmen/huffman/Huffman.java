@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-import textCodierung.CharacterCodingLib.CharacterCoding;
+import moveToFront.CharacterCoding;
 
 public class Huffman {
 
@@ -20,27 +20,28 @@ public class Huffman {
 
 	}
 
-	public static void main(String[] args) {
-
-		String input = "Resources/faust.txt";
-		String output = "Resources/faustCompressed.txt";
-		String decompressedOutput = "Resources/faustDecompressed.txt";
-
-		ArrayList<Boolean> comp = compress(input, output);
-		System.out.println("Length of compressed binaries: " + comp.size());
-
-		writeStringAsPseudoBinary(output, comp);
-
-		int[] decomp = decompress(comp, decompressedOutput);
-		System.out.println("Length of reconstructed text: " + decomp.length);
-
-		try {
-			coding.writeToFile(decompressedOutput, decomp);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
+//	// TODO extract main method into tests
+//	public static void main(String[] args) {
+//
+//		String input = "Resources/faust.txt";
+//		String output = "Resources/faustCompressed.txt";
+//		String decompressedOutput = "Resources/faustDecompressed.txt";
+//
+//		ArrayList<Boolean> comp = compress(input, output);
+//		System.out.println("Length of compressed binaries: " + comp.size());
+//
+//		writeStringAsPseudoBinary(output, comp);
+//
+//		int[] decomp = decompress(comp, decompressedOutput);
+//		System.out.println("Length of reconstructed text: " + decomp.length);
+//
+//		try {
+//			coding.writeToFile(decompressedOutput, decomp);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	/**
 	 * turns a text file into a compressed file ("0" and "1")
@@ -49,24 +50,26 @@ public class Huffman {
 	 * @param coding
 	 * @throws IOException
 	 */
-	public static ArrayList<Boolean> compress(String input, String output) {
+	public static boolean[] compress(int[] textInput, String output) {
 
-		ArrayList<Boolean> codedText = new ArrayList<>();
-		try {
-			int[] text = coding.readFromFile(input);
-			codedText = new ArrayList<Boolean>();
+		PriorityQueue<HuffmanTree> codingHeap = buildHeapFromValues();
+		HuffmanTree codingTree = buildTreeFromHeap(codingHeap);
+		HashMap<Integer, ArrayList<Boolean>> codingMap = treeToHashMap(codingTree);
 
-			PriorityQueue<HuffmanTree> codingHeap = buildHeapFromValues();
-			HuffmanTree codingTree = buildTreeFromHeap(codingHeap);
-			HashMap<Integer, ArrayList<Boolean>> codingMap = treeToHashMap(codingTree);
+		ArrayList<Boolean> results = new ArrayList<Boolean>();
 
-			for (int i = 0; i < text.length; i++) {
+		for (int i = 0; i < textInput.length; i++) {
 
-				codedText.addAll(codingMap.get(text[i]));
+			results.addAll(codingMap.get(textInput[i]));
 
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		}
+
+		boolean[] codedText = new boolean[results.size()];
+
+		for (int i = 0; i < results.size(); i++) {
+
+			codedText[i] = results.get(i);
+
 		}
 
 		return codedText;
@@ -79,23 +82,16 @@ public class Huffman {
 	 * @param filepath
 	 * @param coding
 	 */
+	/// TODO input boolean Array output to int Arrray
 	public static int[] decompress(ArrayList<Boolean> input, String outputPath) {
 
 		PriorityQueue<HuffmanTree> codingHeap = buildHeapFromValues();
 		HuffmanTree codingTree = buildTreeFromHeap(codingHeap);
 
-		// boolean[] input = readCompressedFromPseudoBinary(inputPath);
-
 		HuffmanParser parser = new HuffmanParser(codingTree, toBooleanArray(input.toArray()));
 		int[] output = parser.parse();
 
 		return output;
-//		try {
-//			coding.writeToFile(outputPath, output);
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 
 	}
 
@@ -141,7 +137,7 @@ public class Huffman {
 	 * returns
 	 * 
 	 * @param codingHeap
-	 * @return
+	 * @return finished huffman tree
 	 */
 	private static HuffmanTree buildTreeFromHeap(PriorityQueue<HuffmanTree> codingHeap) {
 
@@ -162,7 +158,8 @@ public class Huffman {
 	 * reads a file with string "0" and "1" and returns them in a boolean array
 	 * 
 	 * @param filepath
-	 * @return
+	 * @return input file ass bool Array
+	 * @requires input file to only consist out off "0" and "1"
 	 */
 	public static boolean[] readCompressedFromPseudoBinary(String filepath) {
 		ArrayList<Boolean> boolList = new ArrayList<Boolean>();
@@ -190,6 +187,9 @@ public class Huffman {
 		return toBooleanArray(boolList.toArray());
 	}
 
+	/**
+	 * writesb boollean array list to file encoding true as "1" and false as "0"
+	 */
 	public static void writeStringAsPseudoBinary(String filepath, ArrayList<Boolean> text) {
 
 		try {

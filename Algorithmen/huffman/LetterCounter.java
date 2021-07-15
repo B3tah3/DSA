@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import textCodierung.CharacterCodingLib.CharacterCoding;
+import moveToFront.CharacterCoding;
 
 public class LetterCounter {
 

@@ -1,3 +1,13 @@
 # DSA
 Data Structures and Algorithms Second Semester University Excercises
-Die Abgabe für Blatt 3 ist im Branch Blatt3Abgabe zu finden ;)
+
+> Abgaben befinden sich jeweils in branches mit entsprechender Nummerierung
+
+-----
+
+	Ordner	|	Inhalt
+:---:	|:---:
+	Algorithmen	| implementirungen 
+	Data Structures | datenstrukturen für entprechende algorithmen
+	Resurces	| faust text etc.
+	Tests	| main executables zum testen von implementierten verfahren

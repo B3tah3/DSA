@@ -1,8 +1,6 @@
 package moveToFront;
-import java.io.IOException;
 
-import textCodierung.TextCoding;
-import textCodierung.CharacterCodingLib.CharacterCoding;
+import java.io.IOException;
 
 public class MoveToFrontTransformTest {
 
@@ -13,8 +11,8 @@ public class MoveToFrontTransformTest {
 
 	public static void main(String[] args) throws IOException {
 
-		TextCoding.applyTransform(pathInput, pathTransformed);
-		TextCoding.applyReverseTransform(pathTransformed, pathReconstructed);
+		MoveToFront.applyTransform(pathInput, pathTransformed);
+		MoveToFront.applyReverseTransform(pathTransformed, pathReconstructed);
 
 		// Test for Difference
 

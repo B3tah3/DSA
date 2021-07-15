@@ -1,10 +1,10 @@
-package testsHuffmanCoding;
+package huffmanCoding;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-import textCodierung.CharacterCodingLib.CharacterCoding;
+import moveToFront.CharacterCoding;
 
 public class TestStreams {
 
