@@ -8,38 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-import moveToFront.CharacterCoding;
-
 public class Huffman {
 
-	private static CharacterCoding coding;
-
-	static {
-
-		coding = new CharacterCoding();
-
-	}
-
-//	// TODO extract main method into tests
-//	public static void main(String[] args) {
+//	private static CharacterCoding coding;
 //
-//		String input = "Resources/faust.txt";
-//		String output = "Resources/faustCompressed.txt";
-//		String decompressedOutput = "Resources/faustDecompressed.txt";
+//	static {
 //
-//		ArrayList<Boolean> comp = compress(input, output);
-//		System.out.println("Length of compressed binaries: " + comp.size());
-//
-//		writeStringAsPseudoBinary(output, comp);
-//
-//		int[] decomp = decompress(comp, decompressedOutput);
-//		System.out.println("Length of reconstructed text: " + decomp.length);
-//
-//		try {
-//			coding.writeToFile(decompressedOutput, decomp);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+//		coding = new CharacterCoding();
 //
 //	}
 
@@ -50,7 +25,7 @@ public class Huffman {
 	 * @param coding
 	 * @throws IOException
 	 */
-	public static boolean[] compress(int[] textInput, String output) {
+	public static boolean[] compress(int[] textInput) {
 
 		PriorityQueue<HuffmanTree> codingHeap = buildHeapFromValues();
 		HuffmanTree codingTree = buildTreeFromHeap(codingHeap);
@@ -83,12 +58,12 @@ public class Huffman {
 	 * @param coding
 	 */
 	/// TODO input boolean Array output to int Arrray
-	public static int[] decompress(ArrayList<Boolean> input, String outputPath) {
+	public static int[] decompress(boolean[] input) {
 
 		PriorityQueue<HuffmanTree> codingHeap = buildHeapFromValues();
 		HuffmanTree codingTree = buildTreeFromHeap(codingHeap);
 
-		HuffmanParser parser = new HuffmanParser(codingTree, toBooleanArray(input.toArray()));
+		HuffmanParser parser = new HuffmanParser(codingTree, input);
 		int[] output = parser.parse();
 
 		return output;
@@ -190,12 +165,12 @@ public class Huffman {
 	/**
 	 * writesb boollean array list to file encoding true as "1" and false as "0"
 	 */
-	public static void writeStringAsPseudoBinary(String filepath, ArrayList<Boolean> text) {
+	public static void writeStringAsPseudoBinary(String filepath, boolean[] text) {
 
 		try {
 			FileWriter f = new FileWriter(filepath);
-			for (int i = 0; i < text.size(); i++) {
-				f.write(text.get(i) ? "1" : "0");
+			for (int i = 0; i < text.length; i++) {
+				f.write(text[i] ? "1" : "0");
 				if (i % 100 == 99) {
 					f.write("\n");
 				}
