@@ -5,9 +5,9 @@ Data Structures and Algorithms Second Semester University Excercises
 
 -----
 
-	Ordner	|	Inhalt
-:---:	|:---:
-	Algorithmen	| implementirungen 
-	Data Structures | datenstrukturen für entprechende algorithmen
-	Resurces	| faust text etc.
-	Tests	| main executables zum testen von implementierten verfahren
+|	Ordner	|	Inhalt	|
+|:---:	|:---:
+|	Algorithmen	| implementirungen |
+|	Data Structures | datenstrukturen für entprechende algorithmen |
+|	Resurces	| faust text etc. |
+|	Tests	| main executables zum testen von implementierten verfahren |
