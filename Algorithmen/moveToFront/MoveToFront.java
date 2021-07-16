@@ -13,7 +13,7 @@ public class MoveToFront {
 	 * @param outPath  path to save transformed text to.
 	 * @throws IOException
 	 */
-	public static int[] applyTransform(int[] textInput) throws IOException {
+	public static int[] applyTransform(int[] textInput) {
 
 		LinkedList alphabet = generateAlphabet(111);
 
@@ -37,7 +37,7 @@ public class MoveToFront {
 	 * @param outPath  Path to save reconstructed text to
 	 * @throws IOException
 	 */
-	public static int[] applyReverseTransform(int[] textInput) throws IOException {
+	public static int[] applyReverseTransform(int[] textInput) {
 
 		LinkedList alphabet = generateAlphabet(111);
 

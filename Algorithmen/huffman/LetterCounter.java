@@ -16,7 +16,7 @@ public class LetterCounter {
 
 	public static void main(String[] args) throws IOException {
 
-		HashMap<Integer, Integer> valueMap = countValuesFromText(new CharacterCoding());
+		int[] valueMap = countValuesFromText(new CharacterCoding());
 		writeToFile(valueMap, output);
 
 		// HashMap<Integer, Integer> readList = readValueFromFile();
@@ -29,11 +29,14 @@ public class LetterCounter {
 	 * @param filename
 	 * @throws IOException
 	 */
-	public static void writeToFile(HashMap<Integer, Integer> valueMap, String filename) throws IOException {
+	public static void writeToFile(int[] valueMap, String filename) throws IOException {
 		FileWriter f = new FileWriter(filename);
-		for (Integer key : valueMap.keySet()) {
-			f.write(key + ", " + valueMap.get(key) + "\n");
+		for (int i = 0; i < valueMap.length; i++) {
+			f.write(i + ", " + valueMap[i] + "\n");
 		}
+
+//		for(int i = 0; i < )
+
 		f.close();
 	}
 
@@ -69,9 +72,9 @@ public class LetterCounter {
 	 * @param coding
 	 * @return
 	 */
-	public static HashMap<Integer, Integer> countValuesFromText(CharacterCoding coding) {
+	public static int[] countValuesFromText(CharacterCoding coding) {
 
-		HashMap<Integer, Integer> valueMap = new HashMap<Integer, Integer>();
+		int[] valueMap = new int[111];
 
 		try (FileReader f = new FileReader(input)) {
 
@@ -88,11 +91,9 @@ public class LetterCounter {
 				if (c != -1) {
 
 					int code = coding.getCode((char) c);
-					if (valueMap.containsKey(code)) {
-						valueMap.put(code, valueMap.get(code) + 1);
-					} else {
-						valueMap.put(code, 1);
-					}
+
+					valueMap[code]++;
+
 				} else {
 					end = true;
 				}
