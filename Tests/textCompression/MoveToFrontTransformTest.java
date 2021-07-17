@@ -13,10 +13,10 @@ public class MoveToFrontTransformTest {
 		int[] textRaw = cc.readFromFile("Resources/faust.txt");
 		System.out.format("RawTextLength: %d\n", textRaw.length);
 
-		int[] textTransformed = MoveToFront.applyTransform(textRaw);
+		int[] textTransformed = MoveToFront.transform(textRaw);
 		System.out.format("TransformedTextLength: %d\n", textTransformed.length);
 
-		int[] textBacktransformed = MoveToFront.applyReverseTransform(textTransformed);
+		int[] textBacktransformed = MoveToFront.reverseTransform(textTransformed);
 		System.out.format("BackTransformedTextLength: %d\n", textBacktransformed.length);
 
 		// Test for Difference

@@ -11,7 +11,10 @@ import moveToFront.CharacterCoding;
 
 public class LetterCounter {
 
+//	static String input = "Resources/faustBWMoveToFrontTransformed.txt";
+
 	static String input = "Resources/faust.txt";
+
 	static String output = "Resources/faustCoding.txt";
 
 	public static void main(String[] args) throws IOException {
