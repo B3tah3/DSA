@@ -10,14 +10,6 @@ import java.util.PriorityQueue;
 
 public class Huffman {
 
-//	private static CharacterCoding coding;
-//
-//	static {
-//
-//		coding = new CharacterCoding();
-//
-//	}
-
 	/**
 	 * turns a text file into a compressed file ("0" and "1")
 	 * 
